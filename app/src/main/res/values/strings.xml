@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">EquationSolver</string>
+    <string name="prompt_text">Введите значения коэффициентов (a, b, c) и нажмите \"решить\". Если вы не знаете как привести ваше уравнение к заданному виду, то нажмите на значёк инфо наверху</string>
+    <string name="solve_btn_text">Решить</string>
+    <string name="clear_btn_text">Очистить</string>
 </resources>
