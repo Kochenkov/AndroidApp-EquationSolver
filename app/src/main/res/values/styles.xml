@@ -22,7 +22,7 @@
         <item name="android:layout_marginRight">2dp</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:background">@drawable/ic_change</item>
-        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:gravity">center</item>
     </style>
 

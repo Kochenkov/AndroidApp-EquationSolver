@@ -7,6 +7,7 @@
     <include layout="@layout/toolbar" />
 
     <ScrollView
+        android:id="@+id/scrollMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -86,6 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:orientation="horizontal">
 
                 <Button
@@ -114,12 +116,18 @@
 
             </LinearLayout>
 
-
-            <io.github.kexanie.library.MathView
-                android:id="@+id/mvSolution"
+            <LinearLayout
                 style="@style/marginsStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <io.github.kexanie.library.MathView
+                    android:id="@+id/mvSolution"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

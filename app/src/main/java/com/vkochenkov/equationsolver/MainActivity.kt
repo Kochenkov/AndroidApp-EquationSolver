@@ -3,13 +3,13 @@ package com.vkochenkov.equationsolver
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.LinearLayout
+import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import io.github.kexanie.library.MathView
 
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         btnSolve = findViewById(R.id.btnSolve)
         btnInfo = findViewById(R.id.btnInfo)
         mvSolution = findViewById(R.id.mvSolution)
-        //set button's click listener
+
         btnChangeSignA.setOnClickListener(this)
         btnChangeSignB.setOnClickListener(this)
         btnChangeSignC.setOnClickListener(this)
@@ -93,22 +93,30 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun solveEq() {
-        val aPair = Pair(
-            btnChangeSignA.text.toString(),
-            if (edtA.text.toString() == "") "1" else edtA.text.toString()
-        )
-        val bPair = Pair(
-            btnChangeSignB.text.toString(),
-            if (edtB.text.toString() == "") "1" else edtB.text.toString()
-        )
-        val cPair = Pair(
-            btnChangeSignC.text.toString(),
-            if (edtC.text.toString() == "") "0" else edtC.text.toString()
-        )
+        try {
+            //убираем клаву, если открыта
+            val imm: InputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+        } finally {
+            //передаем значения в объект уравнения и показываем ответ
+            val aPair = Pair(
+                btnChangeSignA.text.toString(),
+                if (edtA.text.toString() == "") "1" else edtA.text.toString()
+            )
+            val bPair = Pair(
+                btnChangeSignB.text.toString(),
+                if (edtB.text.toString() == "") "1" else edtB.text.toString()
+            )
+            val cPair = Pair(
+                btnChangeSignC.text.toString(),
+                if (edtC.text.toString() == "") "0" else edtC.text.toString()
+            )
 
-        val equation: QuadraticEquation = QuadraticEquation(aPair, bPair, cPair)
-        mvSolution.text = equation.toString()
-        //todo wooden leg (do not work correctly)
-        mvSolution.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            val equation: QuadraticEquation = QuadraticEquation(aPair, bPair, cPair)
+            mvSolution.text = equation.toString()
+//todo не работает. Нужно придумать, как делать скролл вниз после нажатия на кнопку
+            val scrollView = findViewById<ScrollView>(R.id.scrollMain)
+            scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+        }
     }
 }
