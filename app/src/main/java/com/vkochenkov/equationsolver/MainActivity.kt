@@ -16,6 +16,8 @@ import io.github.kexanie.library.MathView
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
+    //todo придумать новую иконку для приложения
+
     lateinit var edtA: EditText
     lateinit var edtB: EditText
     lateinit var edtC: EditText
