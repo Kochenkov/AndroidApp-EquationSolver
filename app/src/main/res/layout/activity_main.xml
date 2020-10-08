@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar" />
+    <include layout="@layout/toolbar_main" />
 
     <ScrollView
         android:id="@+id/scrollMain"
@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/description_text"
-                android:textColor="@color/colorTextColor"
+                android:textColor="@color/colorBlack"
                 android:textSize="16sp" />
 
             <HorizontalScrollView
@@ -97,7 +97,7 @@
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/round_button_cancel"
                     android:text="@string/clear_btn_text"
-                    android:textColor="@color/colorTextColor" />
+                    android:textColor="@color/colorBlack" />
 
                 <View
                     android:layout_width="20dp"
@@ -112,7 +112,7 @@
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/round_button_input"
                     android:text="@string/solve_btn_text"
-                    android:textColor="@color/colorTextColor" />
+                    android:textColor="@color/colorBlack" />
 
             </LinearLayout>
 
