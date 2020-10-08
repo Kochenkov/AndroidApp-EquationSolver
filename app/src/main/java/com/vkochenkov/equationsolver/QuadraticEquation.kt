@@ -2,11 +2,6 @@ package com.vkochenkov.equationsolver
 
 import kotlin.math.sqrt
 
-//todo пример
-//var tex = "This come from string. You can insert inline formula:" +
-//        " \\(ax^2 + bx + c = 0\\) " +
-//        "or displayed formula: $$\\sum_{i=0}^n i^2 = \\frac{(n^2+n)(2n+1)}{6}$$"
-
 const val DISCRIMINANT_FORMULA: String = "$$\\ D = b^2-4ac $$"
 const val QUADRATIC_X12_FORMULA: String = "$$\\ x_{1,2} = {-b \\pm \\sqrt{D} \\over 2a}$$"
 const val QUADRATIC_X_FORMULA: String = "$$\\ x = {-b \\over 2a}$$"
@@ -40,6 +35,7 @@ class QuadraticEquation(
     private fun showBasicEquation(): String {
         //todo убрать отображение всех х с 0 индексами и выводить индексы отдельно
         var str = "Ваше уравнение: $$\\ ${a}x^2${checkForAddSign(b)}x${checkForAddSign(c)}=0 $$ "
+        str += "$$\\ a=${a}; b=${b}; c=${c} $$"
         return str
     }
 

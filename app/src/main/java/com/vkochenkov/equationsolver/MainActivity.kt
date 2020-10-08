@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentManager
 import io.github.kexanie.library.MathView
 import kotlinx.android.synthetic.main.activity_main.*
 
+//todo разобраться с поворотом экрана
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var edtA: EditText
