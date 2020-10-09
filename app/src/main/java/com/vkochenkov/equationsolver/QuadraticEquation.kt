@@ -13,11 +13,9 @@ class QuadraticEquation(
     val bPair: Pair<String, String>,
     val cPair: Pair<String, String>
 ) {
-
     private val a = glueSignWithNumber(aPair)
     private val b = glueSignWithNumber(bPair)
     private val c = glueSignWithNumber(cPair)
-    private var isQuardEq = a!=0f
 
     private val d: Float = (this.b * this.b) - (4 * this.a * this.c)
 
@@ -28,21 +26,41 @@ class QuadraticEquation(
 
     override fun toString(): String {
         var str = showBasicEquation()
-        str += if (isQuardEq) showSolutionForQuadraticEquation() else showSolutionForLinearEquation()
+        str += if (a!=0f) showSolutionForQuadraticEquation() else if (b!=0f) showSolutionForLinearEquation() else showError()
         return str
     }
 
     private fun showBasicEquation(): String {
-        //todo убрать отображение всех х с 0 индексами и выводить индексы отдельно
-        var str = "Ваше уравнение: $$\\ ${a}x^2${checkForAddSign(b)}x${checkForAddSign(c)}=0 $$ "
-        str += "$$\\ a=${a}; b=${b}; c=${c} $$"
+        var str = "Ваше уравнение: "
+        "$$\\ ${a}x^2${checkForAddPlusSign(b)}x${checkForAddPlusSign(c)}=0 $$ "
+        var eq = when (a) {
+            0f -> ""
+            1f -> "x^2"
+            -1f -> "-x^2"
+            else -> "${a}x^2"
+        }
+        eq += when (b) {
+            0f -> ""
+            1f -> {if (eq!="") "+x" else "x"}
+            -1f -> {if (eq!="") "-x" else "x"}
+            else -> {if (eq!="") "${checkForAddPlusSign(b)}x" else "${b}x"}
+        }
+        eq += when (c) {
+            0f -> ""
+            else -> {if (eq!="") checkForAddPlusSign(c) else c}
+        }
+        if (eq=="") {
+            eq += "0"
+        }
+        eq += "=0"
+        str += "$$\\ $eq $$"
         return str
     }
 
     private fun showSolutionForQuadraticEquation(): String {
         var str = "Решение через формулу дискриминанта:"
         str += DISCRIMINANT_FORMULA
-        str += "$$\\ D = ${checkForAddParentheses(b)}^2- 4 * ${checkForAddParentheses(a)} * ${checkForAddParentheses(c)} $$ "
+        str += "$$\\ D = ${checkForAddParentheses(b)}^2 - 4 * ${checkForAddParentheses(a)} * ${checkForAddParentheses(c)} $$ "
         str += "$$\\ D = ${d} $$"
         if (d > 0) {
             str += QUADRATIC_X12_FORMULA
@@ -72,6 +90,10 @@ class QuadraticEquation(
         return str
     }
 
+    private fun showError(): String {
+        return "В заданном уравнении нет неизвестных"
+    }
+
     private fun glueSignWithNumber(pair: Pair<String, String>): Float {
         val returnValue = (pair.first + pair.second).toFloat()
         return if (returnValue!=-0f) returnValue else 0f
@@ -85,7 +107,7 @@ class QuadraticEquation(
         }
     }
 
-    private fun checkForAddSign(number: Float): String {
+    private fun checkForAddPlusSign(number: Float): String {
         return if (number>=0) {
             "+${number.toString()}"
         } else {

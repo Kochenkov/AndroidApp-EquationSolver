@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Решатель квадратных уравнений</string>
-    <string name="description_text">Введите значения коэффициентов и выберете знаки:</string>
+    <string name="description_text">Введите значения коэффициентов и выберите знаки:</string>
     <string name="solve_btn_text">Решить</string>
     <string name="clear_btn_text">Очистить</string>
     <!-- TODO: Remove or change this placeholder text -->

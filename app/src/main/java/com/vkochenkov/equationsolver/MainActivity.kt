@@ -1,22 +1,15 @@
 package com.vkochenkov.equationsolver
 
-import android.annotation.SuppressLint
 import android.content.Intent
-import android.icu.text.IDNA
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import io.github.kexanie.library.MathView
-import kotlinx.android.synthetic.main.activity_main.*
 
-//todo разобраться с поворотом экрана
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var edtA: EditText
@@ -70,6 +63,22 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("eqValue", mvSolution.text.toString())
+        outState.putString("aSignValue", btnChangeSignA.text.toString())
+        outState.putString("bSignValue", btnChangeSignB.text.toString())
+        outState.putString("cSignValue", btnChangeSignC.text.toString())
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        mvSolution.text = savedInstanceState.getString("eqValue")
+        btnChangeSignA.text = savedInstanceState.getString("aSignValue")
+        btnChangeSignB.text = savedInstanceState.getString("bSignValue")
+        btnChangeSignC.text = savedInstanceState.getString("cSignValue")
+    }
+
     private fun openInfoActivity() {
         val intent = Intent(this, InfoActivity::class.java)
         startActivity(intent)
@@ -120,7 +129,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
             val equation: QuadraticEquation = QuadraticEquation(aPair, bPair, cPair)
             mvSolution.text = equation.toString()
-//todo не работает. Нужно придумать, как делать скролл вниз после нажатия на кнопку / возможно это сзано с фокусом в эдит тексте после нажатия на кнопку
+            //todo не работает. Нужно придумать, как делать скролл вниз после нажатия на кнопку / возможно это сзано с фокусом в эдит тексте после нажатия на кнопку
             val scrollView = findViewById<ScrollView>(R.id.scrollMain)
             scrollView.fullScroll(ScrollView.FOCUS_DOWN);
         }
