@@ -19,7 +19,7 @@ class QuadraticEquation(
 
     private val d: Float = (this.b * this.b) - (4 * this.a * this.c)
 
-    //todo дать ограничение на длину чисел
+    //todo дать ограничение на длину чисел?
     private val quadrX1: Float = (changeSign(b) + (sqrt(d))) / (2 * a)
     private val quadrX2: Float = (changeSign(b) - (sqrt(d))) / (2 * a)
     private val linearX: Float = (changeSign(c))/b
@@ -67,12 +67,12 @@ class QuadraticEquation(
             str += "$$\\ x_1 = {${changeSign(b)} + \\sqrt{${d}} \\over 2*${checkForAddParentheses(a)}}$$"
             str += "$$\\ x_2 = {${changeSign(b)} - \\sqrt{${d}} \\over 2*${checkForAddParentheses(a)}}$$"
             str += "Ответ: "
-            str += "$$\\ x_1 = ${quadrX1}; x_2 = ${quadrX2}$$"
+            str += "$$\\ x_1 = ${getValueWithValidation(quadrX1)}; x_2 = ${getValueWithValidation(quadrX2)}$$"
         } else if (d==0f) {
             str += QUADRATIC_X_FORMULA
             str += "$$\\ x = {${changeSign(b)} \\over 2*${checkForAddParentheses(a)}}$$"
             str += "Ответ: "
-            str += "$$\\ x = ${quadrX1}$$"
+            str += "$$\\ x = ${getValueWithValidation(quadrX1)}$$"
         } else {
             str += "Ответ: "
             str += "Уравнение не имеет решений для натуральных корней"
@@ -81,12 +81,11 @@ class QuadraticEquation(
     }
 
     private fun showSolutionForLinearEquation(): String {
-        //todo нужно обработать ответы с нан и инфинити
         var str = "Решение: "
         str += LINEAR_X_FORMULA
         str += "$$\\ x = {${changeSign(c)} \\over ${b}}$$"
         str += "Ответ: "
-        str += "$$\\ x = ${linearX} $$"
+        str += "$$\\ x = ${getValueWithValidation(linearX)} $$"
         return str
     }
 
@@ -117,5 +116,10 @@ class QuadraticEquation(
 
     private fun changeSign(number: Float): Float {
         return if (number==0f || number==-0f) 0f else number*(-1)
+    }
+
+    private fun getValueWithValidation(number: Float): String = when (number) {
+        -0f -> "0.0"
+        else -> number.toString()
     }
 }

@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString("eqValue", mvSolution.text.toString())
+        outState.putString("eqValue", mvSolution.text?.toString())
         outState.putString("aSignValue", btnChangeSignA.text.toString())
         outState.putString("bSignValue", btnChangeSignB.text.toString())
         outState.putString("cSignValue", btnChangeSignC.text.toString())
@@ -116,15 +116,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             //передаем значения в объект уравнения и показываем ответ
             val aPair = Pair(
                 btnChangeSignA.text.toString(),
-                if (edtA.text.toString() == "") "1" else edtA.text.toString()
+                if (edtA.text.toString() == "") "1" else if (edtA.text.toString()==".") "0.1" else edtA.text.toString()
             )
             val bPair = Pair(
                 btnChangeSignB.text.toString(),
-                if (edtB.text.toString() == "") "1" else edtB.text.toString()
+                if (edtB.text.toString() == "") "1" else if (edtB.text.toString()==".") "0.1" else edtB.text.toString()
             )
             val cPair = Pair(
                 btnChangeSignC.text.toString(),
-                if (edtC.text.toString() == "") "0" else edtC.text.toString()
+                if (edtC.text.toString() == "") "0" else if (edtC.text.toString()==".") "0.1" else edtC.text.toString()
             )
 
             val equation: QuadraticEquation = QuadraticEquation(aPair, bPair, cPair)
