@@ -1,8 +1,24 @@
 <resources>
-    <string name="app_name">Решатель квадратных уравнений</string>
-    <string name="description_text">Введите значения коэффициентов и выберите знаки:</string>
-    <string name="solve_btn_text">Решить</string>
-    <string name="clear_btn_text">Очистить</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name">Quadratic equation solver</string>
+    <string name="description_text">Enter coefficient values ​​and select signs:</string>
+    <string name="solve_btn_text">Solve</string>
+    <string name="clear_btn_text">Clean</string>
+    <string name="your_eq">"Your equation: "</string>
+    <string name="solution_discrim">"Solution through the discriminant formula: "</string>
+    <string name="solution">"Solution: "</string>
+    <string name="answer">"Answer: "</string>
+    <string name="wrong_answer">There are no unknowns in the given equation.</string>
+    <string name="no_natural_solution">"The equation has no solutions for natural roots. "</string>
+    <string name="long_info_text">
+    Any quadratic equation can be represented in general form: \\(ax^2+bx+c=0\\),
+    where \\(a\\), \\(b\\) and \\(c\\) are numeric coefficients before different powers of x.
+    For example, in the equation \\(x^2+2x-4=0\\) the coefficients will be: \\(a=1\\), \\(b=2\\), \\(c=-4\\).
+    Our application is able to solve equations written in a general form. However, general equations are not so common.
+    Sometimes, before solving an equation, you must first bring it to a general form.
+    If in your task you come across such a case, then do not be discouraged.
+    Here are some examples of equations that are generalized.
+    Example 1: \\(-3x^2=-5+0.5x\\) \\(\\Rightarrow\\) \\(-3x^2-0.5x+5=0\\). Example 2: \\(11=x^2\\) \\(\\Rightarrow\\) \\(-x^2+11=0\\).
+    Please note that not only whole numbers, but also fractional numbers written in decimal form can act as coefficients (example 1).
+    Also, pay attention to the fact that some of the general formulated equations may be missing (example 2).
+    When writing an equation in our application, indicate 0 in front of such a coefficient.</string>
 </resources>

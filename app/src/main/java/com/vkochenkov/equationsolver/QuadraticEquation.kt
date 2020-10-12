@@ -8,10 +8,11 @@ const val QUADRATIC_X_FORMULA: String = "$$\\ x = {-b \\over 2a}$$"
 const val LINEAR_X_FORMULA: String = "$$\\ x = {-c \\over b}$$"
 const val EQUATION_PATTERN : String = "$$\\ ax^2+bx+c $$"
 
-class QuadraticEquation(
+class QuadraticEquation (
     val aPair: Pair<String, String>,
     val bPair: Pair<String, String>,
-    val cPair: Pair<String, String>
+    val cPair: Pair<String, String>,
+    val localisationStrings: HashMap<String, String>
 ) {
     private val a = glueSignWithNumber(aPair)
     private val b = glueSignWithNumber(bPair)
@@ -31,7 +32,7 @@ class QuadraticEquation(
     }
 
     private fun showBasicEquation(): String {
-        var str = "Ваше уравнение: "
+        var str = localisationStrings.get("yourEq").toString()
         "$$\\ ${a}x^2${checkForAddPlusSign(b)}x${checkForAddPlusSign(c)}=0 $$ "
         var eq = when (a) {
             0f -> ""
@@ -58,7 +59,7 @@ class QuadraticEquation(
     }
 
     private fun showSolutionForQuadraticEquation(): String {
-        var str = "Решение через формулу дискриминанта:"
+        var str = localisationStrings.get("solutionDiscrim").toString()
         str += DISCRIMINANT_FORMULA
         str += "$$\\ D = ${checkForAddParentheses(b)}^2 - 4 * ${checkForAddParentheses(a)} * ${checkForAddParentheses(c)} $$ "
         str += "$$\\ D = ${d} $$"
@@ -66,31 +67,31 @@ class QuadraticEquation(
             str += QUADRATIC_X12_FORMULA
             str += "$$\\ x_1 = {${changeSign(b)} + \\sqrt{${d}} \\over 2*${checkForAddParentheses(a)}}$$"
             str += "$$\\ x_2 = {${changeSign(b)} - \\sqrt{${d}} \\over 2*${checkForAddParentheses(a)}}$$"
-            str += "Ответ: "
+            str += localisationStrings.get("answer").toString()
             str += "$$\\ x_1 = ${getValueWithValidation(quadrX1)}; x_2 = ${getValueWithValidation(quadrX2)}$$"
         } else if (d==0f) {
             str += QUADRATIC_X_FORMULA
             str += "$$\\ x = {${changeSign(b)} \\over 2*${checkForAddParentheses(a)}}$$"
-            str += "Ответ: "
+            str += localisationStrings.get("answer").toString()
             str += "$$\\ x = ${getValueWithValidation(quadrX1)}$$"
         } else {
-            str += "Ответ: "
-            str += "Уравнение не имеет решений для натуральных корней"
+            str += localisationStrings.get("answer").toString()
+            str += localisationStrings.get("noNaturalSolution").toString()
         }
         return str
     }
 
     private fun showSolutionForLinearEquation(): String {
-        var str = "Решение: "
+        var str = localisationStrings.get("solution").toString()
         str += LINEAR_X_FORMULA
         str += "$$\\ x = {${changeSign(c)} \\over ${b}}$$"
-        str += "Ответ: "
+        str += localisationStrings.get("answer").toString()
         str += "$$\\ x = ${getValueWithValidation(linearX)} $$"
         return str
     }
 
     private fun showError(): String {
-        return "В заданном уравнении нет неизвестных"
+        return localisationStrings.get("wrongAnswer").toString()
     }
 
     private fun glueSignWithNumber(pair: Pair<String, String>): Float {

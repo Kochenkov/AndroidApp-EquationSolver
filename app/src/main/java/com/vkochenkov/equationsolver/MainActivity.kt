@@ -12,6 +12,8 @@ import io.github.kexanie.library.MathView
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
+    var localisationStrings: HashMap<String, String> = HashMap()
+
     lateinit var edtA: EditText
     lateinit var edtB: EditText
     lateinit var edtC: EditText
@@ -28,6 +30,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        localisationStrings.put("answer", getString(com.vkochenkov.equationsolver.R.string.answer))
+        localisationStrings.put("wrongAnswer", getString(com.vkochenkov.equationsolver.R.string.wrong_answer))
+        localisationStrings.put("solution", getString(com.vkochenkov.equationsolver.R.string.solution))
+        localisationStrings.put("solutionDiscrim", getString(com.vkochenkov.equationsolver.R.string.solution_discrim))
+        localisationStrings.put("yourEq", getString(com.vkochenkov.equationsolver.R.string.your_eq))
+        localisationStrings.put("noNaturalSolution", getString(com.vkochenkov.equationsolver.R.string.no_natural_solution))
 
         edtA = findViewById(R.id.edtA)
         edtB = findViewById(R.id.edtB)
@@ -127,7 +136,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 if (edtC.text.toString() == "") "0" else if (edtC.text.toString()==".") "0.1" else edtC.text.toString()
             )
 
-            val equation: QuadraticEquation = QuadraticEquation(aPair, bPair, cPair)
+            val equation: QuadraticEquation = QuadraticEquation(aPair, bPair, cPair, localisationStrings)
             mvSolution.text = equation.toString()
             //todo не работает. Нужно придумать, как делать скролл вниз после нажатия на кнопку / возможно это сзано с фокусом в эдит тексте после нажатия на кнопку
             val scrollView = findViewById<ScrollView>(R.id.scrollMain)
