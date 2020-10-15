@@ -27,13 +27,13 @@ class QuadraticEquation (
 
     override fun toString(): String {
         var str = showBasicEquation()
+        str += showCoefficients()
         str += if (a!=0f) showSolutionForQuadraticEquation() else if (b!=0f) showSolutionForLinearEquation() else showError()
         return str
     }
 
     private fun showBasicEquation(): String {
         var str = localisationStrings.get("yourEq").toString()
-        "$$\\ ${a}x^2${checkForAddPlusSign(b)}x${checkForAddPlusSign(c)}=0 $$ "
         var eq = when (a) {
             0f -> ""
             1f -> "x^2"
@@ -56,6 +56,10 @@ class QuadraticEquation (
         eq += "=0"
         str += "$$\\ $eq $$"
         return str
+    }
+
+    private fun showCoefficients(): String {
+        return "$$\\ a=${a}; b=${b}; c=${c} $$"
     }
 
     private fun showSolutionForQuadraticEquation(): String {
