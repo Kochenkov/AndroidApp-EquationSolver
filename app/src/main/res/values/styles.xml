@@ -38,7 +38,10 @@
         <item name="android:inputType">numberDecimal</item>
         <item name="android:textColorHint">@color/colorAccentLight</item>
         <item name="android:textColor">@color/colorAccent</item>
-
     </style>
 
+    <style name="toolbarStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/colorBlack</item>
+    </style>
 </resources>

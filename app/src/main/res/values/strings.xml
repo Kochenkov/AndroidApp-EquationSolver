@@ -21,4 +21,7 @@
     Please note that not only whole numbers, but also fractional numbers written in decimal form can act as coefficients (example 1).
     Also, pay attention to the fact that some of the general formulated equations may be missing (example 2).
     When writing an equation in our application, indicate 0 in front of such a coefficient.</string>
+    <string name="menu_item_info">Info</string>
+    <string name="menu_item_share">Share</string>
+    <string name="share_link">Look at this cool app for solving quadratic equations: https://play.google.com/store/apps/details?id=com.vkochenkov.equationsolver</string>
 </resources>

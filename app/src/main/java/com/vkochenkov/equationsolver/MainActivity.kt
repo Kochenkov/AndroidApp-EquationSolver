@@ -2,11 +2,15 @@ package com.vkochenkov.equationsolver
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import io.github.kexanie.library.MathView
 
@@ -22,14 +26,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var btnChangeSignC: Button
     lateinit var btnClear: Button
     lateinit var btnSolve: Button
-    lateinit var btnInfo: ImageButton
     lateinit var mvSolution: MathView
-
     lateinit var animationRotateCenter: Animation
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setSupportActionBar(findViewById(R.id.toolbarMain));
 
         localisationStrings.put("answer", getString(com.vkochenkov.equationsolver.R.string.answer))
         localisationStrings.put("wrongAnswer", getString(com.vkochenkov.equationsolver.R.string.wrong_answer))
@@ -46,7 +49,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         btnChangeSignC = findViewById(R.id.btnChangeSignC)
         btnClear = findViewById(R.id.btnClear)
         btnSolve = findViewById(R.id.btnSolve)
-        btnInfo = findViewById(R.id.btnInfo)
         mvSolution = findViewById(R.id.mvSolution)
 
         btnChangeSignA.setOnClickListener(this)
@@ -54,16 +56,35 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         btnChangeSignC.setOnClickListener(this)
         btnClear.setOnClickListener(this)
         btnSolve.setOnClickListener(this)
-        btnInfo.setOnClickListener(this)
 
         animationRotateCenter = AnimationUtils.loadAnimation(
             this, R.anim.rotate_center
         )
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu);
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_info -> openInfoActivity()
+            R.id.action_share -> share()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun share() {
+        val intent: Intent = Intent(Intent.ACTION_SEND)
+        intent.type = "message/rfc822"
+        val text = getString(R.string.share_link)
+        intent.putExtra(Intent.EXTRA_TEXT, text)
+        startActivity(Intent.createChooser(intent, "Send message..."))
+    }
+
     override fun onClick(view: View) {
         when (view.id) {
-            R.id.btnInfo -> openInfoActivity()
             R.id.btnChangeSignA -> changeSign(btnChangeSignA)
             R.id.btnChangeSignB -> changeSign(btnChangeSignB)
             R.id.btnChangeSignC -> changeSign(btnChangeSignC)
@@ -119,24 +140,30 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun solveEq() {
         try {
             //убираем клаву, если открыта
-            val imm: InputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            val imm: InputMethodManager =
+                getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
         } finally {
             //передаем значения в объект уравнения и показываем ответ
             val aPair = Pair(
                 btnChangeSignA.text.toString(),
-                if (edtA.text.toString() == "") "1" else if (edtA.text.toString()==".") "0.1" else edtA.text.toString()
+                if (edtA.text.toString() == "") "1" else if (edtA.text.toString() == ".") "0.1" else edtA.text.toString()
             )
             val bPair = Pair(
                 btnChangeSignB.text.toString(),
-                if (edtB.text.toString() == "") "1" else if (edtB.text.toString()==".") "0.1" else edtB.text.toString()
+                if (edtB.text.toString() == "") "1" else if (edtB.text.toString() == ".") "0.1" else edtB.text.toString()
             )
             val cPair = Pair(
                 btnChangeSignC.text.toString(),
-                if (edtC.text.toString() == "") "0" else if (edtC.text.toString()==".") "0.1" else edtC.text.toString()
+                if (edtC.text.toString() == "") "0" else if (edtC.text.toString() == ".") "0.1" else edtC.text.toString()
             )
 
-            val equation: QuadraticEquation = QuadraticEquation(aPair, bPair, cPair, localisationStrings)
+            val equation: QuadraticEquation = QuadraticEquation(
+                aPair,
+                bPair,
+                cPair,
+                localisationStrings
+            )
             mvSolution.text = equation.toString()
             //todo не работает. Нужно придумать, как делать скролл вниз после нажатия на кнопку / возможно это сзано с фокусом в эдит тексте после нажатия на кнопку
             val scrollView = findViewById<ScrollView>(R.id.scrollMain)
