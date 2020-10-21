@@ -79,7 +79,7 @@ class QuadraticEquation (
             str += localisationStrings.get("answer").toString()
             str += "$$\\ x = ${getValueWithValidation(quadrX1)}$$"
         } else {
-            str += localisationStrings.get("answer").toString()
+            str += localisationStrings.get("answer").toString() + " "
             str += localisationStrings.get("noNaturalSolution").toString()
         }
         return str
