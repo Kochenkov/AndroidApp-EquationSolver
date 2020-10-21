@@ -132,7 +132,8 @@
                 <io.github.kexanie.library.MathView
                     android:id="@+id/mvSolution"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp" />
 
             </LinearLayout>
 

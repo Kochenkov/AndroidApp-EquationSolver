@@ -165,7 +165,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 localisationStrings
             )
             mvSolution.text = equation.toString()
-            //todo не работает. Нужно придумать, как делать скролл вниз после нажатия на кнопку / возможно это сзано с фокусом в эдит тексте после нажатия на кнопку
+            //todo не работает с первого раза. Нужно придумать, как делать скролл вниз после нажатия на кнопку / возможно это сзано с фокусом в эдит тексте после нажатия на кнопку
             val scrollView = findViewById<ScrollView>(R.id.scrollMain)
             scrollView.fullScroll(ScrollView.FOCUS_DOWN);
         }
