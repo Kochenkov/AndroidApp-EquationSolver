@@ -1,6 +1,7 @@
 package com.vkochenkov.equationsolver
 
 import android.content.Intent
+import android.graphics.Canvas
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -12,6 +13,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
+import com.vkochenkov.equationsolver.views.DrawView
 import io.github.kexanie.library.MathView
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -27,6 +29,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var btnClear: Button
     lateinit var btnSolve: Button
     lateinit var mvSolution: MathView
+    lateinit var drawView: DrawView
     lateinit var animationRotateCenter: Animation
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +53,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         btnClear = findViewById(R.id.btnClear)
         btnSolve = findViewById(R.id.btnSolve)
         mvSolution = findViewById(R.id.mvSolution)
+        drawView = findViewById(R.id.drawView)
 
         btnChangeSignA.setOnClickListener(this)
         btnChangeSignB.setOnClickListener(this)
@@ -89,7 +93,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             R.id.btnChangeSignB -> changeSign(btnChangeSignB)
             R.id.btnChangeSignC -> changeSign(btnChangeSignC)
             R.id.btnClear -> clearFields()
-            R.id.btnSolve -> solveEq()
+            R.id.btnSolve -> {
+                solveEq()
+                //todo
+                //drawView.drawDiagram(Canvas())
+                }
         }
     }
 
