@@ -23,5 +23,7 @@
     When writing an equation in our application, indicate 0 in front of such a coefficient.</string>
     <string name="menu_item_info">Info</string>
     <string name="menu_item_share">Share</string>
+    <string name="menu_item_exit">Exit</string>
     <string name="share_link">Look at this cool app for solving quadratic equations: https://play.google.com/store/apps/details?id=com.vkochenkov.equationsolver</string>
+    <string name="activity_info_title_text">Useful info</string>
 </resources>
