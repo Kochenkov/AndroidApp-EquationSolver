@@ -23,6 +23,7 @@
     <string name="menu_item_info">Инфо</string>
     <string name="menu_item_share">Поделиться</string>
     <string name="share_link">Зацени классное приложение для решения квадратных уравнений: https://play.google.com/store/apps/details?id=com.vkochenkov.equationsolver</string>
+    <string name="draw_button_text">Построить график функции</string>
 
 
 </resources>

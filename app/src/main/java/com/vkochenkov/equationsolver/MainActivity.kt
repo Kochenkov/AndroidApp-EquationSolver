@@ -1,7 +1,6 @@
 package com.vkochenkov.equationsolver
 
 import android.content.Intent
-import android.graphics.Canvas
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -28,9 +27,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var btnChangeSignC: Button
     lateinit var btnClear: Button
     lateinit var btnSolve: Button
+    lateinit var btnDraw: Button
     lateinit var mvSolution: MathView
     lateinit var drawView: DrawView
     lateinit var animationRotateCenter: Animation
+    lateinit var scrollView: ScrollView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,11 +39,23 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         setSupportActionBar(findViewById(R.id.toolbarMain));
 
         localisationStrings.put("answer", getString(com.vkochenkov.equationsolver.R.string.answer))
-        localisationStrings.put("wrongAnswer", getString(com.vkochenkov.equationsolver.R.string.wrong_answer))
-        localisationStrings.put("solution", getString(com.vkochenkov.equationsolver.R.string.solution))
-        localisationStrings.put("solutionDiscrim", getString(com.vkochenkov.equationsolver.R.string.solution_discrim))
+        localisationStrings.put(
+            "wrongAnswer",
+            getString(com.vkochenkov.equationsolver.R.string.wrong_answer)
+        )
+        localisationStrings.put(
+            "solution",
+            getString(com.vkochenkov.equationsolver.R.string.solution)
+        )
+        localisationStrings.put(
+            "solutionDiscrim",
+            getString(com.vkochenkov.equationsolver.R.string.solution_discrim)
+        )
         localisationStrings.put("yourEq", getString(com.vkochenkov.equationsolver.R.string.your_eq))
-        localisationStrings.put("noNaturalSolution", getString(com.vkochenkov.equationsolver.R.string.no_natural_solution))
+        localisationStrings.put(
+            "noNaturalSolution",
+            getString(com.vkochenkov.equationsolver.R.string.no_natural_solution)
+        )
 
         edtA = findViewById(R.id.edtA)
         edtB = findViewById(R.id.edtB)
@@ -52,14 +65,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         btnChangeSignC = findViewById(R.id.btnChangeSignC)
         btnClear = findViewById(R.id.btnClear)
         btnSolve = findViewById(R.id.btnSolve)
+        btnDraw = findViewById(R.id.btnDraw)
         mvSolution = findViewById(R.id.mvSolution)
         drawView = findViewById(R.id.drawView)
+        scrollView = findViewById(R.id.scrollMain)
 
         btnChangeSignA.setOnClickListener(this)
         btnChangeSignB.setOnClickListener(this)
         btnChangeSignC.setOnClickListener(this)
         btnClear.setOnClickListener(this)
         btnSolve.setOnClickListener(this)
+        btnDraw.setOnClickListener(this)
 
         animationRotateCenter = AnimationUtils.loadAnimation(
             this, R.anim.rotate_center
@@ -93,12 +109,27 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             R.id.btnChangeSignB -> changeSign(btnChangeSignB)
             R.id.btnChangeSignC -> changeSign(btnChangeSignC)
             R.id.btnClear -> clearFields()
-            R.id.btnSolve -> {
-                solveEq()
-                //todo
-                //drawView.drawDiagram(Canvas())
-                }
+            R.id.btnSolve -> solveEq()
+            R.id.btnDraw -> drawDiagram()
         }
+    }
+
+    private fun drawDiagram() {
+        drawView.visibility = View.VISIBLE
+        //todo
+        var pointsArr = arrayListOf<Float>(23f,45f, 56f, 78f)
+
+        drawView.drawDiagram(pointsArr)
+
+
+
+
+
+
+
+        //скролл вниз, что бы был виден график
+        //todo похоже что не робит как надо
+        scrollView.fullScroll(ScrollView.FOCUS_DOWN)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -143,6 +174,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         edtB.setText("")
         edtC.setText("")
         mvSolution.text = ""
+        btnDraw.visibility = View.GONE
+        drawView.visibility = View.GONE
     }
 
     private fun solveEq() {
@@ -174,8 +207,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             )
             mvSolution.text = equation.toString()
             //todo не работает с первого раза. Нужно придумать, как делать скролл вниз после нажатия на кнопку / возможно это сзано с фокусом в эдит тексте после нажатия на кнопку
-            val scrollView = findViewById<ScrollView>(R.id.scrollMain)
-            scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+            scrollView.fullScroll(ScrollView.FOCUS_DOWN)
+
+            //делаем видимой кнопку которая рисует график
+            //todo нужно засунуть в какой-нибудь асинк-таск, тк кнопка появляется быстрее, чем mathView
+            btnDraw.visibility = View.VISIBLE
         }
     }
 }

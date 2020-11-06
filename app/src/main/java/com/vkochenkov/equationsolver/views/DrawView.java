@@ -10,7 +10,12 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+
 public class DrawView extends View {
+
+    ArrayList<Float> points;
+
     public DrawView(Context context) {
         super(context);
     }
@@ -27,26 +32,25 @@ public class DrawView extends View {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
+    public void drawDiagram(ArrayList<Float> points) {
+        this.points = points;
+        //points = new float[]{onePoint, twoPoint};
+        invalidate();
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
-        float[] points = new float[]{50,50, 60,60,70,60,80,60};
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        //Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        Paint paint = new Paint();
         paint.setColor(Color.RED);
         paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(5);
+        paint.setStrokeWidth(10);
 
-        Path path = new Path();
+        float[] pointsArr = new float[points.size()];
+        for (int i=0; i<points.size(); i++) {
+            pointsArr[i] = (float) points.get(i);
+        }
 
-        canvas.drawColor(Color.GREEN);
-
-        canvas.drawPoints(points, paint);
-        canvas.drawLine(50,50, 150, 150, paint);
-
-        path.reset();
-        path.moveTo(200,200);
-        path.quadTo(400,300,500,600);
-
-        //path.close();
-        canvas.drawPath(path, paint);
+        canvas.drawPoints(pointsArr, paint);
     }
 }

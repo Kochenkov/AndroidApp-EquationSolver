@@ -24,4 +24,5 @@
     <string name="menu_item_info">Info</string>
     <string name="menu_item_share">Share</string>
     <string name="share_link">Look at this cool app for solving quadratic equations: https://play.google.com/store/apps/details?id=com.vkochenkov.equationsolver</string>
+    <string name="draw_button_text">Draw diagram</string>
 </resources>

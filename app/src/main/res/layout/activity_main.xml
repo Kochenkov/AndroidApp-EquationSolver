@@ -135,10 +135,21 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp" />
 
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnDraw"
+                    android:text="@string/draw_button_text"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/round_button_input"
+                    android:textColor="@color/colorBlack"
+                    android:visibility="gone"/>
+
                 <com.vkochenkov.equationsolver.views.DrawView
                     android:id="@+id/drawView"
                     android:layout_width="match_parent"
-                    android:layout_height="212dp" />
+                    android:layout_height="212dp"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 
