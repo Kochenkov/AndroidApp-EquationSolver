@@ -21,9 +21,14 @@ class QuadraticEquation (
     private val d: Float = (this.b * this.b) - (4 * this.a * this.c)
 
     //todo дать ограничение на длину чисел?
-    private val quadrX1: Float = (changeSign(b) + (sqrt(d))) / (2 * a)
-    private val quadrX2: Float = (changeSign(b) - (sqrt(d))) / (2 * a)
-    private val linearX: Float = (changeSign(c))/b
+    val quadrX1 = (changeSign(b) + (sqrt(d))) / (2 * a)
+    val quadrX2 = (changeSign(b) - (sqrt(d))) / (2 * a)
+    val quadrY = 0f
+    val quadrX0 = -b/(2*a)
+    val quadrY0 = quadrX0*quadrX0 + b*quadrX0 + c
+
+    private val linearX = (changeSign(c))/b
+    private val linearY = b*linearX+c
 
     override fun toString(): String {
         var str = showBasicEquation()

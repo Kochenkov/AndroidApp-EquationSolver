@@ -15,6 +15,8 @@ import java.util.ArrayList;
 public class DrawView extends View {
 
     ArrayList<Float> points;
+    float max = 500f;
+    float min = 0f;
 
     public DrawView(Context context) {
         super(context);
@@ -40,15 +42,34 @@ public class DrawView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        //Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        //рисуем оси
         Paint paint = new Paint();
+        paint.setColor(Color.BLUE);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(3);
+
+        float horisontalX1 = min;
+        float horisontalY1 = max/2;
+        float horisontalX2 = max;
+        float horisontalY2 = horisontalY1;
+
+        float verticalX1 = max/2;
+        float verticalY1 = min;
+        float verticalX2 = verticalX1;
+        float verticalY2 = max;
+
+        canvas.drawLine(horisontalX1,horisontalY1, horisontalX2, horisontalY2, paint);
+        canvas.drawLine(verticalX1,verticalY1, verticalX2,verticalY2, paint);
+
+        //рисуем точки
         paint.setColor(Color.RED);
         paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(10);
+        paint.setStrokeWidth(6);
 
+        //todo ось y нужно инвертировать, отображается не в ту сторону
         float[] pointsArr = new float[points.size()];
         for (int i=0; i<points.size(); i++) {
-            pointsArr[i] = (float) points.get(i);
+            pointsArr[i] = ((float) points.get(i))*10 + max/2;
         }
 
         canvas.drawPoints(pointsArr, paint);

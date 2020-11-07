@@ -17,21 +17,23 @@ import io.github.kexanie.library.MathView
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
-    var localisationStrings: HashMap<String, String> = HashMap()
+    private var localisationStrings: HashMap<String, String> = HashMap()
 
-    lateinit var edtA: EditText
-    lateinit var edtB: EditText
-    lateinit var edtC: EditText
-    lateinit var btnChangeSignA: Button
-    lateinit var btnChangeSignB: Button
-    lateinit var btnChangeSignC: Button
-    lateinit var btnClear: Button
-    lateinit var btnSolve: Button
-    lateinit var btnDraw: Button
-    lateinit var mvSolution: MathView
-    lateinit var drawView: DrawView
-    lateinit var animationRotateCenter: Animation
-    lateinit var scrollView: ScrollView
+    private lateinit var equation: QuadraticEquation
+
+    private lateinit var edtA: EditText
+    private lateinit var edtB: EditText
+    private lateinit var edtC: EditText
+    private lateinit var btnChangeSignA: Button
+    private lateinit var btnChangeSignB: Button
+    private lateinit var btnChangeSignC: Button
+    private lateinit var btnClear: Button
+    private lateinit var btnSolve: Button
+    private lateinit var btnDraw: Button
+    private lateinit var mvSolution: MathView
+    private lateinit var drawView: DrawView
+    private lateinit var animationRotateCenter: Animation
+    private lateinit var scrollView: ScrollView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,16 +118,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun drawDiagram() {
         drawView.visibility = View.VISIBLE
+
         //todo
-        var pointsArr = arrayListOf<Float>(23f,45f, 56f, 78f)
-
+        val pairX1Y1 = Pair(equation.quadrX1, equation.quadrY)
+        val pairX2Y2 = Pair(equation.quadrX2, equation.quadrY)
+        val pairX0Y0 = Pair(equation.quadrX0, equation.quadrY0)
+        val pointsArr = arrayListOf<Float>(pairX1Y1.first, pairX1Y1.second,
+                                           pairX2Y2.first, pairX2Y2.second,
+                                           pairX0Y0.first, pairX0Y0.second)
         drawView.drawDiagram(pointsArr)
-
-
-
-
-
-
 
         //скролл вниз, что бы был виден график
         //todo похоже что не робит как надо
@@ -199,7 +200,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 if (edtC.text.toString() == "") "0" else if (edtC.text.toString() == ".") "0.1" else edtC.text.toString()
             )
 
-            val equation: QuadraticEquation = QuadraticEquation(
+            equation = QuadraticEquation(
                 aPair,
                 bPair,
                 cPair,
