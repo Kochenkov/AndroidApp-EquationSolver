@@ -1,4 +1,4 @@
-# AndroidApp-EquationSolver
+# EquationSolver
 
 This app will allow you to solve quadratic equations. 
 In this project I use free icons from here: https://www.flaticon.com/. 
