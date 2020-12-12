@@ -15,11 +15,19 @@ import java.util.ArrayList;
 public class DrawView extends View {
 
     ArrayList<Float> points;
-    float max = 500f;
-    float min = 0f;
+    float max;
+    float min;
+    //int screenWidth;
 
     public DrawView(Context context) {
         super(context);
+    }
+
+    public DrawView(Context context, int screenWidth, ArrayList<Float> points) {
+        super(context);
+        this.max = screenWidth;
+        this.min = 0f;
+        this.points = points;
     }
 
     public DrawView(Context context, @Nullable AttributeSet attrs) {
@@ -34,15 +42,34 @@ public class DrawView extends View {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public void drawDiagram(ArrayList<Float> points) {
-        this.points = points;
-        //points = new float[]{onePoint, twoPoint};
-        invalidate();
-    }
+//    public void drawDiagram(ArrayList<Float> points) {
+//        this.points = points;
+//        //points = new float[]{onePoint, twoPoint};
+//        invalidate();
+//    }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        //рисуем оси
+        drawAxes(canvas);
+        drawPoints(canvas);
+    }
+
+    private void drawPoints(Canvas canvas) {
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(6);
+
+        //todo ось y нужно инвертировать, отображается не в ту сторону
+        float[] pointsArr = new float[points.size()];
+        for (int i=0; i<points.size(); i++) {
+            pointsArr[i] = ((float) points.get(i))*10 + max/2;
+        }
+
+        canvas.drawPoints(pointsArr, paint);
+    }
+
+    private void drawAxes(Canvas canvas) {
         Paint paint = new Paint();
         paint.setColor(Color.BLUE);
         paint.setStyle(Paint.Style.STROKE);
@@ -60,18 +87,5 @@ public class DrawView extends View {
 
         canvas.drawLine(horisontalX1,horisontalY1, horisontalX2, horisontalY2, paint);
         canvas.drawLine(verticalX1,verticalY1, verticalX2,verticalY2, paint);
-
-        //рисуем точки
-        paint.setColor(Color.RED);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(6);
-
-        //todo ось y нужно инвертировать, отображается не в ту сторону
-        float[] pointsArr = new float[points.size()];
-        for (int i=0; i<points.size(); i++) {
-            pointsArr[i] = ((float) points.get(i))*10 + max/2;
-        }
-
-        canvas.drawPoints(pointsArr, paint);
     }
 }

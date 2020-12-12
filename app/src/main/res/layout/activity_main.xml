@@ -127,7 +127,8 @@
                 style="@style/marginsStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:id="@+id/layout_math">
 
                 <io.github.kexanie.library.MathView
                     android:id="@+id/mvSolution"
@@ -143,12 +144,6 @@
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/round_button_input"
                     android:textColor="@color/colorBlack"
-                    android:visibility="gone"/>
-
-                <com.vkochenkov.equationsolver.views.DrawView
-                    android:id="@+id/drawView"
-                    android:layout_width="match_parent"
-                    android:layout_height="212dp"
                     android:visibility="gone"/>
 
             </LinearLayout>

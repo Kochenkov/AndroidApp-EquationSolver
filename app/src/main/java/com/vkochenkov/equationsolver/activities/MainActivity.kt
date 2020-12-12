@@ -1,7 +1,9 @@
-package com.vkochenkov.equationsolver
+package com.vkochenkov.equationsolver.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.DisplayMetrics
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -10,8 +12,11 @@ import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
+import com.vkochenkov.equationsolver.R
+import com.vkochenkov.equationsolver.services.QuadraticEquation
 import com.vkochenkov.equationsolver.views.DrawView
 import io.github.kexanie.library.MathView
 
@@ -35,28 +40,31 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var animationRotateCenter: Animation
     private lateinit var scrollView: ScrollView
 
+    private var phoneScreenWidth: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(findViewById(R.id.toolbarMain));
+        setSupportActionBar(findViewById(R.id.toolbarMain))
+        findDisplaySize()
 
-        localisationStrings.put("answer", getString(com.vkochenkov.equationsolver.R.string.answer))
+        localisationStrings.put("answer", getString(R.string.answer))
         localisationStrings.put(
             "wrongAnswer",
-            getString(com.vkochenkov.equationsolver.R.string.wrong_answer)
+            getString(R.string.wrong_answer)
         )
         localisationStrings.put(
             "solution",
-            getString(com.vkochenkov.equationsolver.R.string.solution)
+            getString(R.string.solution)
         )
         localisationStrings.put(
             "solutionDiscrim",
-            getString(com.vkochenkov.equationsolver.R.string.solution_discrim)
+            getString(R.string.solution_discrim)
         )
-        localisationStrings.put("yourEq", getString(com.vkochenkov.equationsolver.R.string.your_eq))
+        localisationStrings.put("yourEq", getString(R.string.your_eq))
         localisationStrings.put(
             "noNaturalSolution",
-            getString(com.vkochenkov.equationsolver.R.string.no_natural_solution)
+            getString(R.string.no_natural_solution)
         )
 
         edtA = findViewById(R.id.edtA)
@@ -69,7 +77,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         btnSolve = findViewById(R.id.btnSolve)
         btnDraw = findViewById(R.id.btnDraw)
         mvSolution = findViewById(R.id.mvSolution)
-        drawView = findViewById(R.id.drawView)
+        // drawView = findViewById(R.id.drawView)
         scrollView = findViewById(R.id.scrollMain)
 
         btnChangeSignA.setOnClickListener(this)
@@ -117,16 +125,34 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun drawDiagram() {
-        drawView.visibility = View.VISIBLE
 
         //todo
         val pairX1Y1 = Pair(equation.quadrX1, equation.quadrY)
         val pairX2Y2 = Pair(equation.quadrX2, equation.quadrY)
         val pairX0Y0 = Pair(equation.quadrX0, equation.quadrY0)
-        val pointsArr = arrayListOf<Float>(pairX1Y1.first, pairX1Y1.second,
-                                           pairX2Y2.first, pairX2Y2.second,
-                                           pairX0Y0.first, pairX0Y0.second)
-        drawView.drawDiagram(pointsArr)
+        val pointsArr = arrayListOf<Float>(
+            pairX1Y1.first, pairX1Y1.second,
+            pairX2Y2.first, pairX2Y2.second,
+            pairX0Y0.first, pairX0Y0.second
+        )
+//        drawView.drawDiagram(pointsArr)
+////        drawView.visibility = View.VISIBLE
+
+        val drawViewSize = (phoneScreenWidth / 12) * 10
+        drawView = DrawView(this, drawViewSize, pointsArr)
+        val params: LinearLayout.LayoutParams =
+            LinearLayout.LayoutParams(drawViewSize, drawViewSize)
+        params.gravity = Gravity.CENTER_HORIZONTAL
+        params.setMargins(
+            drawViewSize / 10,
+            drawViewSize / 10,
+            drawViewSize / 10,
+            drawViewSize / 10
+        )
+        drawView.layoutParams = params
+        val mathLayout = findViewById<LinearLayout>(R.id.layout_math)
+        mathLayout.addView(drawView)
+        drawView.invalidate()
 
         //скролл вниз, что бы был виден график
         //todo похоже что не робит как надо
@@ -176,6 +202,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         edtC.setText("")
         mvSolution.text = ""
         btnDraw.visibility = View.GONE
+        //todo краш?
         drawView.visibility = View.GONE
     }
 
@@ -200,12 +227,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 if (edtC.text.toString() == "") "0" else if (edtC.text.toString() == ".") "0.1" else edtC.text.toString()
             )
 
-            equation = QuadraticEquation(
-                aPair,
-                bPair,
-                cPair,
-                localisationStrings
-            )
+            equation = QuadraticEquation(aPair, bPair, cPair, localisationStrings)
             mvSolution.text = equation.toString()
             //todo не работает с первого раза. Нужно придумать, как делать скролл вниз после нажатия на кнопку / возможно это сзано с фокусом в эдит тексте после нажатия на кнопку
             scrollView.fullScroll(ScrollView.FOCUS_DOWN)
@@ -214,5 +236,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             //todo нужно засунуть в какой-нибудь асинк-таск, тк кнопка появляется быстрее, чем mathView
             btnDraw.visibility = View.VISIBLE
         }
+    }
+
+    private fun findDisplaySize() {
+        val metrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(metrics)
+        phoneScreenWidth = metrics.widthPixels
     }
 }

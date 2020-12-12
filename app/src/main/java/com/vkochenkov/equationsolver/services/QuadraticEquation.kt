@@ -1,4 +1,4 @@
-package com.vkochenkov.equationsolver
+package com.vkochenkov.equationsolver.services
 
 import kotlin.math.sqrt
 

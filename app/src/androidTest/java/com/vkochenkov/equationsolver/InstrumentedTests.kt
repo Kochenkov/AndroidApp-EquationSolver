@@ -7,6 +7,7 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.vkochenkov.equationsolver.activities.MainActivity
 import org.hamcrest.Matchers
 
 import org.junit.Test
