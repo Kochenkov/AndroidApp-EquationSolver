@@ -14,16 +14,14 @@ class QuadraticEquation (
     val cPair: Pair<String, String>,
     val localisationStrings: HashMap<String, String>
 ) {
-    private val a = glueSignWithNumber(aPair)
-    private val b = glueSignWithNumber(bPair)
-    private val c = glueSignWithNumber(cPair)
+    val a = glueSignWithNumber(aPair)
+    val b = glueSignWithNumber(bPair)
+    val c = glueSignWithNumber(cPair)
 
     private val d: Float = (this.b * this.b) - (4 * this.a * this.c)
 
-    //todo дать ограничение на длину чисел?
     val quadrX1 = (changeSign(b) + (sqrt(d))) / (2 * a)
     val quadrX2 = (changeSign(b) - (sqrt(d))) / (2 * a)
-    val quadrY = 0f
     val quadrX0 = -b/(2*a)
     val quadrY0 = quadrX0*quadrX0 + b*quadrX0 + c
 

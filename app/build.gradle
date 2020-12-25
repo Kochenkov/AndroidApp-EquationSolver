@@ -34,4 +34,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     //библиотека для отображения формул
     implementation 'io.github.kexanie.library:MathView:0.0.6'
+    //библиотека для отрисовки графиков
+    implementation 'com.jjoe64:graphview:4.2.2'
+
 }

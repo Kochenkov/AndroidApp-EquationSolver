@@ -134,7 +134,7 @@
                     android:id="@+id/mvSolution"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp" />
+                    android:layout_marginBottom="8dp" />
 
                 <Button
                     android:layout_width="wrap_content"
@@ -144,8 +144,25 @@
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/round_button_input"
                     android:textColor="@color/colorBlack"
+                    android:visibility="gone"
+                    android:layout_marginBottom="8dp"/>
+
+                <com.jjoe64.graphview.GraphView
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    android:id="@+id/graphView"
+                    android:layout_marginBottom="8dp"
                     android:visibility="gone"/>
 
+                <TextView
+                    android:id="@+id/tvCoordinates"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="todo"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="gone"/>
             </LinearLayout>
 
         </LinearLayout>
