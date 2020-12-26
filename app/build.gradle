@@ -9,8 +9,8 @@ android {
         applicationId "com.vkochenkov.equationsolver"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 6
-        versionName "1.2"
+        versionCode 9
+        versionName "2.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -34,4 +34,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     //библиотека для отображения формул
     implementation 'io.github.kexanie.library:MathView:0.0.6'
+    //библиотека для отрисовки графиков
+    implementation 'com.jjoe64:graphview:4.2.2'
 }

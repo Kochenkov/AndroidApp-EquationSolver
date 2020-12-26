@@ -1,4 +1,4 @@
-package com.vkochenkov.equationsolver
+package com.vkochenkov.equationsolver.services
 
 import kotlin.math.sqrt
 
@@ -8,22 +8,36 @@ const val QUADRATIC_X_FORMULA: String = "$$\\ x = {-b \\over 2a}$$"
 const val LINEAR_X_FORMULA: String = "$$\\ x = {-c \\over b}$$"
 const val EQUATION_PATTERN : String = "$$\\ ax^2+bx+c $$"
 
+enum class GraphicType {
+    QUADRATIC, LINEAR, NO_GRAPHIC
+}
+
 class QuadraticEquation (
     val aPair: Pair<String, String>,
     val bPair: Pair<String, String>,
     val cPair: Pair<String, String>,
     val localisationStrings: HashMap<String, String>
 ) {
-    private val a = glueSignWithNumber(aPair)
-    private val b = glueSignWithNumber(bPair)
-    private val c = glueSignWithNumber(cPair)
+    //тип графика. По-дефолту - квадратное
+    var graphicType: GraphicType = GraphicType.QUADRATIC
 
+    //коэффициенты уравнения
+    val a = glueSignWithNumber(aPair)
+    val b = glueSignWithNumber(bPair)
+    val c = glueSignWithNumber(cPair)
+
+    //дискриминант
     private val d: Float = (this.b * this.b) - (4 * this.a * this.c)
 
-    //todo дать ограничение на длину чисел?
-    private val quadrX1: Float = (changeSign(b) + (sqrt(d))) / (2 * a)
-    private val quadrX2: Float = (changeSign(b) - (sqrt(d))) / (2 * a)
-    private val linearX: Float = (changeSign(c))/b
+    //точки квадратного уравнения
+    val quadrX1 = (changeSign(b) + (sqrt(d))) / (2 * a)
+    val quadrX2 = (changeSign(b) - (sqrt(d))) / (2 * a)
+    val quadrX0 = negativeZeroValidation(-b/(2*a))
+    val quadrY0 = negativeZeroValidation(a*quadrX0*quadrX0 + b*quadrX0 + c)
+
+    //точки линейного уравнения
+    val linearX = (changeSign(c))/b
+    val linearY = b*linearX+c
 
     override fun toString(): String {
         var str = showBasicEquation()
@@ -63,6 +77,7 @@ class QuadraticEquation (
     }
 
     private fun showSolutionForQuadraticEquation(): String {
+        graphicType = GraphicType.QUADRATIC
         var str = localisationStrings.get("solutionDiscrim").toString()
         str += DISCRIMINANT_FORMULA
         str += "$$\\ D = ${checkForAddParentheses(b)}^2 - 4 * ${checkForAddParentheses(a)} * ${checkForAddParentheses(c)} $$ "
@@ -79,6 +94,7 @@ class QuadraticEquation (
             str += localisationStrings.get("answer").toString()
             str += "$$\\ x = ${getValueWithValidation(quadrX1)}$$"
         } else {
+            graphicType = GraphicType.NO_GRAPHIC
             str += localisationStrings.get("answer").toString() + " "
             str += localisationStrings.get("noNaturalSolution").toString()
         }
@@ -86,6 +102,7 @@ class QuadraticEquation (
     }
 
     private fun showSolutionForLinearEquation(): String {
+        graphicType = GraphicType.LINEAR
         var str = localisationStrings.get("solution").toString()
         str += LINEAR_X_FORMULA
         str += "$$\\ x = {${changeSign(c)} \\over ${b}}$$"
@@ -95,6 +112,7 @@ class QuadraticEquation (
     }
 
     private fun showError(): String {
+        graphicType = GraphicType.NO_GRAPHIC
         return localisationStrings.get("wrongAnswer").toString()
     }
 
@@ -126,5 +144,10 @@ class QuadraticEquation (
     private fun getValueWithValidation(number: Float): String = when (number) {
         -0f -> "0.0"
         else -> number.toString()
+    }
+
+    private fun negativeZeroValidation(number: Float): Float = when (number) {
+        -0f -> 0f
+        else -> number
     }
 }

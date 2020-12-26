@@ -1,9 +1,10 @@
-package com.vkochenkov.equationsolver
+package com.vkochenkov.equationsolver.activities
 
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.vkochenkov.equationsolver.R
 import io.github.kexanie.library.MathView
 
 class InfoActivity : AppCompatActivity() {

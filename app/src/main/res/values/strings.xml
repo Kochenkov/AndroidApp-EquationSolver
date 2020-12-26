@@ -24,6 +24,9 @@
     <string name="menu_item_info">Info</string>
     <string name="menu_item_share">Share</string>
     <string name="menu_item_exit">Exit</string>
-    <string name="share_link">Look at this cool app for solving quadratic equations: https://play.google.com/store/apps/details?id=com.vkochenkov.equationsolver</string>
+    <string name="share_link">Look at this app for solving quadratic equations: https://play.google.com/store/apps/details?id=com.vkochenkov.equationsolver</string>
     <string name="activity_info_title_text">Useful info</string>
+    <string name="draw_button_text">Draw diagram</string>
+    <string name="coordinates_parabola_text">Parabola vertex coordinates:</string>
+    <string name="graph_title_text">An example graph of the equation:</string>
 </resources>
