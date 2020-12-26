@@ -2,7 +2,6 @@ package com.vkochenkov.equationsolver.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -25,7 +24,7 @@ import kotlin.math.abs
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
-    inner class ScrollThread: Thread() {
+    inner class ScrollThread : Thread() {
         override fun run() {
             sleep(500)
             runOnUiThread(Runnable {
@@ -34,9 +33,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    inner class ShowDrawButtonThread: Thread() {
+    inner class ShowDrawButtonThread : Thread() {
         override fun run() {
-            sleep(250)
+            sleep(300)
             runOnUiThread(Runnable {
                 if (equation.graphicType != GraphicType.NO_GRAPHIC) {
                     btnDraw.visibility = View.VISIBLE
@@ -65,32 +64,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var tvCoordinates: MathView
     private lateinit var graphView: GraphView
 
-    private var phoneScreenWidth: Int = 0
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbarMain))
-        findDisplaySize()
 
+        //строковые данные, используемые в классе уравнения
         localisationStrings.put("answer", getString(R.string.answer))
-        localisationStrings.put(
-            "wrongAnswer",
-            getString(R.string.wrong_answer)
-        )
-        localisationStrings.put(
-            "solution",
-            getString(R.string.solution)
-        )
-        localisationStrings.put(
-            "solutionDiscrim",
-            getString(R.string.solution_discrim)
-        )
+        localisationStrings.put("wrongAnswer", getString(R.string.wrong_answer))
+        localisationStrings.put("solution", getString(R.string.solution))
+        localisationStrings.put("solutionDiscrim", getString(R.string.solution_discrim))
         localisationStrings.put("yourEq", getString(R.string.your_eq))
-        localisationStrings.put(
-            "noNaturalSolution",
-            getString(R.string.no_natural_solution)
-        )
+        localisationStrings.put("noNaturalSolution", getString(R.string.no_natural_solution))
 
         edtA = findViewById(R.id.edtA)
         edtB = findViewById(R.id.edtB)
@@ -113,9 +98,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         btnSolve.setOnClickListener(this)
         btnDraw.setOnClickListener(this)
 
-        animationRotateCenter = AnimationUtils.loadAnimation(
-            this, R.anim.rotate_center
-        )
+        animationRotateCenter = AnimationUtils.loadAnimation(this, R.anim.rotate_center)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -277,19 +260,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
             equation = QuadraticEquation(aPair, bPair, cPair, localisationStrings)
             mvSolution.text = equation.toString()
-            mvSolution.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+            mvSolution.layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
             mvSolution.visibility = View.VISIBLE
             val showDrawButton = ShowDrawButtonThread()
             showDrawButton.start()
             val scrollDown = ScrollThread()
             scrollDown.start()
         }
-    }
-
-    //пока ни где не использую?
-    private fun findDisplaySize() {
-        val metrics = DisplayMetrics()
-        windowManager.defaultDisplay.getMetrics(metrics)
-        phoneScreenWidth = metrics.widthPixels
     }
 }

@@ -8,7 +8,7 @@ const val QUADRATIC_X_FORMULA: String = "$$\\ x = {-b \\over 2a}$$"
 const val LINEAR_X_FORMULA: String = "$$\\ x = {-c \\over b}$$"
 const val EQUATION_PATTERN : String = "$$\\ ax^2+bx+c $$"
 
-enum class GraphicType() {
+enum class GraphicType {
     QUADRATIC, LINEAR, NO_GRAPHIC
 }
 
@@ -18,7 +18,7 @@ class QuadraticEquation (
     val cPair: Pair<String, String>,
     val localisationStrings: HashMap<String, String>
 ) {
-    //тип уравнения. По-дефолту - квадратное
+    //тип графика. По-дефолту - квадратное
     var graphicType: GraphicType = GraphicType.QUADRATIC
 
     //коэффициенты уравнения
@@ -35,6 +35,7 @@ class QuadraticEquation (
     val quadrX0 = negativeZeroValidation(-b/(2*a))
     val quadrY0 = negativeZeroValidation(a*quadrX0*quadrX0 + b*quadrX0 + c)
 
+    //точки линейного уравнения
     val linearX = (changeSign(c))/b
     val linearY = b*linearX+c
 
