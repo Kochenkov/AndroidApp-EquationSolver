@@ -186,6 +186,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
         text += getString(R.string.graph_title_text)
         tvCoordinates.setText(text)
+        //todo нужно разобраться как скейлить график, пока это плохо работает
+//        graphView.getViewport().setScalable(true);
+//        graphView.getViewport().setScalableY(true);
         graphView.addSeries(series)
         val scrollThread = ScrollThread()
         scrollThread.start()
