@@ -12,7 +12,8 @@
         android:background="@color/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         app:navigationIcon="?attr/homeAsUpIndicator"
-        app:titleTextAppearance="@style/toolbarStyle"/>
+        app:titleTextAppearance="@style/toolbarStyle"
+        app:title="@string/activity_info_title_text"/>
 
     <ScrollView
         android:id="@+id/scrollInfo"

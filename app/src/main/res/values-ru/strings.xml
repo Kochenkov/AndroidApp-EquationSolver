@@ -8,7 +8,7 @@
     <string name="solution">Решение: </string>
     <string name="answer">Ответ: </string>
     <string name="wrong_answer">В заданном уравнении нет неизвестных. </string>
-    <string name="no_natural_solution">Уравнение не имеет решений для натуральных корней. </string>
+    <string name="no_natural_solution">Уравнение не имеет решений для вещественных корней. </string>
     <string name="long_info_text">Любое квадратное уравнение можно представить в общем виде: \\(ax^2+bx+c=0\\),
         где \\(a\\), \\(b\\) и \\(c\\) это числовые коэффициенты перед разными степенями x.
         Например, в уравнении \\(x^2+2x-4=0\\) коэффиициенты будут такие: \\(a=1\\), \\(b=2\\), \\(c=-4\\).
@@ -22,10 +22,11 @@
         При записи уравнения в нашем приложении, укажите перед таким коэффициентом 0.</string>
     <string name="menu_item_info">Инфо</string>
     <string name="menu_item_share">Поделиться</string>
+    <string name="share_link">Хочу поделиться классным приложением для решения квадратных уравнений: https://play.google.com/store/apps/details?id=com.vkochenkov.equationsolver</string>
+    <string name="menu_item_exit">Выход</string>
+    <string name="activity_info_title_text">Полезная информация</string>
     <string name="share_link">Зацени классное приложение для решения квадратных уравнений: https://play.google.com/store/apps/details?id=com.vkochenkov.equationsolver</string>
     <string name="draw_button_text">Построить график</string>
     <string name="coordinates_parabola_text">Координаты вершины параболы:</string>
     <string name="graph_title_text">Примерный график уравнения:</string>
-
-
 </resources>
