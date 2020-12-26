@@ -11,20 +11,39 @@ import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.ScrollView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.jjoe64.graphview.GraphView
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
 import com.vkochenkov.equationsolver.R
+import com.vkochenkov.equationsolver.services.GraphicType
 import com.vkochenkov.equationsolver.services.QuadraticEquation
-import com.vkochenkov.equationsolver.views.DrawView
 import io.github.kexanie.library.MathView
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.math.abs
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
+
+    inner class ScrollThread: Thread() {
+        override fun run() {
+            sleep(500)
+            runOnUiThread(Runnable {
+                scrollView.fullScroll(ScrollView.FOCUS_DOWN)
+            })
+        }
+    }
+
+    inner class ShowDrawButtonThread: Thread() {
+        override fun run() {
+            sleep(250)
+            runOnUiThread(Runnable {
+                if (equation.graphicType != GraphicType.NO_GRAPHIC) {
+                    btnDraw.visibility = View.VISIBLE
+                }
+            })
+        }
+    }
 
     private var localisationStrings: HashMap<String, String> = HashMap()
 
@@ -43,7 +62,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var series: LineGraphSeries<DataPoint>
     private lateinit var animationRotateCenter: Animation
     private lateinit var scrollView: ScrollView
-    private lateinit var tvCoordinates: TextView
+    private lateinit var tvCoordinates: MathView
     private lateinit var graphView: GraphView
 
     private var phoneScreenWidth: Int = 0
@@ -84,7 +103,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         btnDraw = findViewById(R.id.btnDraw)
         mvSolution = findViewById(R.id.mvSolution)
         scrollView = findViewById(R.id.scrollMain)
-        tvCoordinates = findViewById(R.id.tvCoordinates)
+        tvCoordinates = findViewById(R.id.mvCoordinates)
         graphView = findViewById(R.id.graphView)
 
         btnChangeSignA.setOnClickListener(this)
@@ -132,34 +151,56 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun drawDiagram() {
+        btnDraw.visibility = View.GONE
+        graphView.removeAllSeries()
         graphView.visibility = View.VISIBLE
         tvCoordinates.visibility = View.VISIBLE
-        var xFrom: Double
-        var xTo: Double
-        if (equation.quadrX1.toDouble()<equation.quadrX2.toDouble()) {
-            xFrom = equation.quadrX1.toDouble()
-            xTo = equation.quadrX2.toDouble()
-        } else {
-            xFrom = equation.quadrX2.toDouble()
-            xTo = equation.quadrX1.toDouble()
-        }
-        var y: Double
-        var dif = abs(equation.quadrX1.toDouble() - equation.quadrX2.toDouble())/100
+        var text = ""
         series = LineGraphSeries()
-        y = equation.a*(xFrom*xFrom) + equation.b*xFrom + equation.c
-        series.appendData(DataPoint(xFrom,y), true, 101)
-        for (i in 0..100) {
-            if (xFrom+dif<xTo) {
-                xFrom+=dif
-            } else {
-                break
+        if (equation.graphicType == GraphicType.QUADRATIC) {
+            var xFrom = equation.quadrX1.toDouble()
+            var xTo = equation.quadrX2.toDouble()
+            var dif = abs(equation.quadrX1.toDouble() - equation.quadrX2.toDouble()) / 100
+            if (equation.quadrX1.toDouble() > equation.quadrX2.toDouble()) {
+                xFrom = equation.quadrX2.toDouble()
+                xTo = equation.quadrX1.toDouble()
             }
-            y = equation.a*(xFrom*xFrom) + equation.b*xFrom + equation.c
-            series.appendData(DataPoint(xFrom,y), true, 101)
+            if ((equation.quadrX1.toDouble() == equation.quadrX2.toDouble())) {
+                xFrom = -5.0
+                xTo = 5.0
+                dif = 0.1
+            }
+            var y: Double
+            //первая точка
+            y = equation.a * (xFrom * xFrom) + equation.b * xFrom + equation.c
+            series.appendData(DataPoint(xFrom, y), true, 102)
+            //считаем в цикле остальные точки
+            for (i in 0..100) {
+                if (xFrom + dif < xTo) {
+                    xFrom += dif
+                } else {
+                    break
+                }
+                y = equation.a * (xFrom * xFrom) + equation.b * xFrom + equation.c
+                series.appendData(DataPoint(xFrom, y), true, 102)
+            }
+            text += getString(R.string.coordinates_parabola_text)
+            text += "$$\\ x_0 = {${equation.quadrX0}}; y_0 = {${equation.quadrY0}} $$"
+        } else {
+            var x = equation.linearX.toDouble()
+            var y = equation.linearY.toDouble()
+            series.appendData(DataPoint(x, y), true, 12)
+            for (i in 0..10) {
+                x += 1
+                y = equation.b * x + equation.c
+                series.appendData(DataPoint(x, y), true, 12)
+            }
         }
+        text += getString(R.string.graph_title_text)
+        tvCoordinates.setText(text)
         graphView.addSeries(series)
-        tvCoordinates.setText("Координаты вершины параболы: ${equation.quadrX0}; ${equation.quadrY0}")
-        scrollView.fullScroll(ScrollView.FOCUS_DOWN)
+        val scrollThread = ScrollThread()
+        scrollThread.start()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -210,6 +251,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun solveEq() {
+        //убираем график и кнопку, если есть
+        tvCoordinates.visibility = View.GONE
+        graphView.visibility = View.GONE
+        btnDraw.visibility = View.GONE
         try {
             //убираем клаву, если открыта
             val imm: InputMethodManager =
@@ -232,15 +277,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
             equation = QuadraticEquation(aPair, bPair, cPair, localisationStrings)
             mvSolution.text = equation.toString()
-            //todo не работает с первого раза. Нужно придумать, как делать скролл вниз после нажатия на кнопку / возможно это сзано с фокусом в эдит тексте после нажатия на кнопку
-            scrollView.fullScroll(ScrollView.FOCUS_DOWN)
-
-            //делаем видимой кнопку которая рисует график
-            //todo нужно засунуть в какой-нибудь асинк-таск, тк кнопка появляется быстрее, чем mathView
-            btnDraw.visibility = View.VISIBLE
+            mvSolution.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+            mvSolution.visibility = View.VISIBLE
+            val showDrawButton = ShowDrawButtonThread()
+            showDrawButton.start()
+            val scrollDown = ScrollThread()
+            scrollDown.start()
         }
     }
 
+    //пока ни где не использую?
     private fun findDisplaySize() {
         val metrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(metrics)

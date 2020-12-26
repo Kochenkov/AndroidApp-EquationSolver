@@ -124,45 +124,45 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_math"
                 style="@style/marginsStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:id="@+id/layout_math">
+                android:layout_marginBottom="8dp">
 
                 <io.github.kexanie.library.MathView
                     android:id="@+id/mvSolution"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp" />
+                    android:layout_marginBottom="8dp"
+                    android:visibility="gone" />
 
                 <Button
+                    android:id="@+id/btnDraw"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/btnDraw"
-                    android:text="@string/draw_button_text"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="16dp"
                     android:background="@drawable/round_button_input"
+                    android:text="@string/draw_button_text"
                     android:textColor="@color/colorBlack"
-                    android:visibility="gone"
-                    android:layout_marginBottom="8dp"/>
+                    android:visibility="gone" />
+
+                <io.github.kexanie.library.MathView
+                    android:id="@+id/mvCoordinates"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp" />
 
                 <com.jjoe64.graphview.GraphView
+                    android:id="@+id/graphView"
                     android:layout_width="match_parent"
                     android:layout_height="400dp"
-                    android:id="@+id/graphView"
                     android:layout_marginBottom="8dp"
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:id="@+id/tvCoordinates"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="todo"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="16sp"
-                    android:layout_marginBottom="8dp"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
             </LinearLayout>
 
         </LinearLayout>
