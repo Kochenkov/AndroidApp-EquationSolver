@@ -22,10 +22,9 @@
         При записи уравнения в нашем приложении, укажите перед таким коэффициентом 0.</string>
     <string name="menu_item_info">Инфо</string>
     <string name="menu_item_share">Поделиться</string>
-    <string name="share_link">Хочу поделиться классным приложением для решения квадратных уравнений: https://play.google.com/store/apps/details?id=com.vkochenkov.equationsolver</string>
+    <string name="share_link">Хочу поделиться приложением для решения квадратных уравнений: https://play.google.com/store/apps/details?id=com.vkochenkov.equationsolver</string>
     <string name="menu_item_exit">Выход</string>
     <string name="activity_info_title_text">Полезная информация</string>
-    <string name="share_link">Зацени классное приложение для решения квадратных уравнений: https://play.google.com/store/apps/details?id=com.vkochenkov.equationsolver</string>
     <string name="draw_button_text">Построить график</string>
     <string name="coordinates_parabola_text">Координаты вершины параболы:</string>
     <string name="graph_title_text">Примерный график уравнения:</string>

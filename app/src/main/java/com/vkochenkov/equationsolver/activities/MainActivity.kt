@@ -110,8 +110,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         when (item.itemId) {
             R.id.action_info -> openInfoActivity()
             R.id.action_share -> share()
+            R.id.action_exit -> exit()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun exit() {
+        onBackPressed()
     }
 
     private fun share() {
