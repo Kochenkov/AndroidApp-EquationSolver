@@ -172,6 +172,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 y = equation.a * (xFrom * xFrom) + equation.b * xFrom + equation.c
                 series.appendData(DataPoint(xFrom, y), true, 102)
             }
+            //последняя точка
+            y = 0.0
+            series.appendData(DataPoint(xTo, y), true, 102)
+            //текст
             text += getString(R.string.coordinates_parabola_text)
             text += "$$\\ x_0 = {${equation.quadrX0}}; y_0 = {${equation.quadrY0}} $$"
         } else {
@@ -186,9 +190,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
         text += getString(R.string.graph_title_text)
         tvCoordinates.setText(text)
-        //todo нужно разобраться как скейлить график, пока это плохо работает
-//        graphView.getViewport().setScalable(true);
-//        graphView.getViewport().setScalableY(true);
         graphView.addSeries(series)
         val scrollThread = ScrollThread()
         scrollThread.start()
