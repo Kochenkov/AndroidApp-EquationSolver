@@ -30,14 +30,14 @@ class QuadraticEquation (
     private val d: Float = (this.b * this.b) - (4 * this.a * this.c)
 
     //точки квадратного уравнения
-    val quadrX1 = (changeSign(b) + (sqrt(d))) / (2 * a)
-    val quadrX2 = (changeSign(b) - (sqrt(d))) / (2 * a)
+    val quadrX1 = negativeZeroValidation((changeSign(b) + (sqrt(d))) / (2 * a))
+    val quadrX2 = negativeZeroValidation((changeSign(b) - (sqrt(d))) / (2 * a))
     val quadrX0 = negativeZeroValidation(-b/(2*a))
     val quadrY0 = negativeZeroValidation(a*quadrX0*quadrX0 + b*quadrX0 + c)
 
     //точки линейного уравнения
-    val linearX = (changeSign(c))/b
-    val linearY = b*linearX+c
+    val linearX = negativeZeroValidation((changeSign(c))/b)
+    val linearY = negativeZeroValidation(b*linearX+c)
 
     override fun toString(): String {
         var str = showBasicEquation()
@@ -87,12 +87,12 @@ class QuadraticEquation (
             str += "$$\\ x_1 = {${changeSign(b)} + \\sqrt{${d}} \\over 2*${checkForAddParentheses(a)}}$$"
             str += "$$\\ x_2 = {${changeSign(b)} - \\sqrt{${d}} \\over 2*${checkForAddParentheses(a)}}$$"
             str += localisationStrings.get("answer").toString()
-            str += "$$\\ x_1 = ${getValueWithValidation(quadrX1)}; x_2 = ${getValueWithValidation(quadrX2)}$$"
+            str += "$$\\ x_1 = ${quadrX1}; x_2 = ${quadrX2}$$"
         } else if (d==0f) {
             str += QUADRATIC_X_FORMULA
             str += "$$\\ x = {${changeSign(b)} \\over 2*${checkForAddParentheses(a)}}$$"
             str += localisationStrings.get("answer").toString()
-            str += "$$\\ x = ${getValueWithValidation(quadrX1)}$$"
+            str += "$$\\ x = ${quadrX1}$$"
         } else {
             graphicType = GraphicType.NO_GRAPHIC
             str += localisationStrings.get("answer").toString() + " "
@@ -107,7 +107,7 @@ class QuadraticEquation (
         str += LINEAR_X_FORMULA
         str += "$$\\ x = {${changeSign(c)} \\over ${b}}$$"
         str += localisationStrings.get("answer").toString()
-        str += "$$\\ x = ${getValueWithValidation(linearX)} $$"
+        str += "$$\\ x = ${linearX} $$"
         return str
     }
 
@@ -139,11 +139,6 @@ class QuadraticEquation (
 
     private fun changeSign(number: Float): Float {
         return if (number==0f || number==-0f) 0f else number*(-1)
-    }
-
-    private fun getValueWithValidation(number: Float): String = when (number) {
-        -0f -> "0.0"
-        else -> number.toString()
     }
 
     private fun negativeZeroValidation(number: Float): Float = when (number) {
