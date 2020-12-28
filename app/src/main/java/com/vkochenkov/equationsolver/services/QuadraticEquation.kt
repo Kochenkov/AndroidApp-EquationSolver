@@ -46,23 +46,35 @@ class QuadraticEquation (
         return str
     }
 
+    fun deleteZeroFromEnd(number: Float): String {
+        return  deleteZeroFromEnd(number.toString())
+    }
+
+    private fun deleteZeroFromEnd(str: String): String {
+        return if (str.endsWith(".0")) {
+            str.replace(".0", "")
+        } else {
+            str
+        }
+    }
+
     private fun showBasicEquation(): String {
         var str = localisationStrings.get("yourEq").toString()
         var eq = when (a) {
             0f -> ""
             1f -> "x^2"
             -1f -> "-x^2"
-            else -> "${a}x^2"
+            else -> "${deleteZeroFromEnd(a)}x^2"
         }
         eq += when (b) {
             0f -> ""
             1f -> {if (eq!="") "+x" else "x"}
-            -1f -> {if (eq!="") "-x" else "x"}
-            else -> {if (eq!="") "${checkForAddPlusSign(b)}x" else "${b}x"}
+            -1f -> "-x"
+            else -> {if (eq!="") "${deleteZeroFromEnd(checkForAddPlusSign(b))}x" else "${deleteZeroFromEnd(b)}x"}
         }
         eq += when (c) {
             0f -> ""
-            else -> {if (eq!="") checkForAddPlusSign(c) else c}
+            else -> {if (eq!="") deleteZeroFromEnd(checkForAddPlusSign(c)) else deleteZeroFromEnd(c)}
         }
         if (eq=="") {
             eq += "0"
@@ -73,26 +85,26 @@ class QuadraticEquation (
     }
 
     private fun showCoefficients(): String {
-        return "$$\\ a=${a}; b=${b}; c=${c} $$"
+        return "$$\\ a=${deleteZeroFromEnd(a)}; b=${deleteZeroFromEnd(b)}; c=${deleteZeroFromEnd(c)} $$"
     }
 
     private fun showSolutionForQuadraticEquation(): String {
         graphicType = GraphicType.QUADRATIC
         var str = localisationStrings.get("solutionDiscrim").toString()
         str += DISCRIMINANT_FORMULA
-        str += "$$\\ D = ${checkForAddParentheses(b)}^2 - 4 * ${checkForAddParentheses(a)} * ${checkForAddParentheses(c)} $$ "
-        str += "$$\\ D = ${d} $$"
+        str += "$$\\ D = ${checkForAddParentheses(deleteZeroFromEnd(b))}^2 - 4 * ${checkForAddParentheses(deleteZeroFromEnd(a))} * ${checkForAddParentheses(deleteZeroFromEnd(c))} $$ "
+        str += "$$\\ D = ${deleteZeroFromEnd(d)} $$"
         if (d > 0) {
             str += QUADRATIC_X12_FORMULA
-            str += "$$\\ x_1 = {${changeSign(b)} + \\sqrt{${d}} \\over 2*${checkForAddParentheses(a)}}$$"
-            str += "$$\\ x_2 = {${changeSign(b)} - \\sqrt{${d}} \\over 2*${checkForAddParentheses(a)}}$$"
+            str += "$$\\ x_1 = {${deleteZeroFromEnd(changeSign(b))} + \\sqrt{${deleteZeroFromEnd(d)}} \\over 2*${checkForAddParentheses(deleteZeroFromEnd(a))}}$$"
+            str += "$$\\ x_2 = {${deleteZeroFromEnd(changeSign(b))} - \\sqrt{${deleteZeroFromEnd(d)}} \\over 2*${checkForAddParentheses(deleteZeroFromEnd(a))}}$$"
             str += localisationStrings.get("answer").toString()
-            str += "$$\\ x_1 = ${quadrX1}; x_2 = ${quadrX2}$$"
+            str += "$$\\ x_1 = ${deleteZeroFromEnd(quadrX1)}; x_2 = ${deleteZeroFromEnd(quadrX2)}$$"
         } else if (d==0f) {
             str += QUADRATIC_X_FORMULA
-            str += "$$\\ x = {${changeSign(b)} \\over 2*${checkForAddParentheses(a)}}$$"
+            str += "$$\\ x = {${deleteZeroFromEnd(changeSign(b))} \\over 2*${checkForAddParentheses(deleteZeroFromEnd(a))}}$$"
             str += localisationStrings.get("answer").toString()
-            str += "$$\\ x = ${quadrX1}$$"
+            str += "$$\\ x = ${deleteZeroFromEnd(quadrX1)}$$"
         } else {
             graphicType = GraphicType.NO_GRAPHIC
             str += localisationStrings.get("answer").toString() + " "
@@ -105,9 +117,9 @@ class QuadraticEquation (
         graphicType = GraphicType.LINEAR
         var str = localisationStrings.get("solution").toString()
         str += LINEAR_X_FORMULA
-        str += "$$\\ x = {${changeSign(c)} \\over ${b}}$$"
+        str += "$$\\ x = {${deleteZeroFromEnd(changeSign(c))} \\over ${deleteZeroFromEnd(b)}}$$"
         str += localisationStrings.get("answer").toString()
-        str += "$$\\ x = ${linearX} $$"
+        str += "$$\\ x = ${deleteZeroFromEnd(linearX)} $$"
         return str
     }
 
@@ -126,6 +138,14 @@ class QuadraticEquation (
             number.toString()
         } else {
             "(${number.toString()})"
+        }
+    }
+
+    private fun checkForAddParentheses(numberStr: String): String {
+        return if (numberStr.toDouble()>=0) {
+            numberStr
+        } else {
+            "(${numberStr})"
         }
     }
 

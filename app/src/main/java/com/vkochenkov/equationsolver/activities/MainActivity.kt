@@ -177,7 +177,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             series.appendData(DataPoint(xTo, y), true, 102)
             //текст
             text += getString(R.string.coordinates_parabola_text)
-            text += "$$\\ x_0 = {${equation.quadrX0}}; y_0 = {${equation.quadrY0}} $$"
+            text += "$$\\ x_0 = {${equation.deleteZeroFromEnd(equation.quadrX0)}}; y_0 = {${equation.deleteZeroFromEnd(equation.quadrY0)}} $$"
         } else {
             var x = equation.linearX.toDouble()
             var y = equation.linearY.toDouble()
@@ -189,7 +189,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
         text += getString(R.string.graph_title_text)
-        tvCoordinates.setText(text)
+        tvCoordinates.text = text
         graphView.addSeries(series)
         val scrollThread = ScrollThread()
         scrollThread.start()
