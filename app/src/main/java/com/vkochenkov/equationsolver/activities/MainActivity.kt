@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         localisationStrings.put("solution", getString(R.string.solution))
         localisationStrings.put("solutionDiscrim", getString(R.string.solution_discrim))
         localisationStrings.put("yourEq", getString(R.string.your_eq))
-        localisationStrings.put("noNaturalSolution", getString(R.string.no_natural_solution))
+        localisationStrings.put("noMaterialSolution", getString(R.string.no_natural_solution))
 
         edtA = findViewById(R.id.edtA)
         edtB = findViewById(R.id.edtB)
@@ -177,7 +177,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             series.appendData(DataPoint(xTo, y), true, 102)
             //текст
             text += getString(R.string.coordinates_parabola_text)
-            text += "$$\\ x_0 = {${equation.deleteZeroFromEnd(equation.quadrX0)}}; y_0 = {${equation.deleteZeroFromEnd(equation.quadrY0)}} $$"
+            text += equation.showZeroQuadraticRoot();
         } else {
             var x = equation.linearX.toDouble()
             var y = equation.linearY.toDouble()

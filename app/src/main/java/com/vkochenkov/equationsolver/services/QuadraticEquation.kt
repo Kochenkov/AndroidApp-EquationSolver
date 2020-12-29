@@ -1,5 +1,6 @@
 package com.vkochenkov.equationsolver.services
 
+import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
 const val DISCRIMINANT_FORMULA: String = "$$\\ D = b^2-4ac $$"
@@ -46,7 +47,16 @@ class QuadraticEquation (
         return str
     }
 
-    fun deleteZeroFromEnd(number: Float): String {
+    fun showZeroQuadraticRoot(): String {
+        return "$$\\ x_0 = {${deleteZeroFromEnd(round(quadrX0))}}; y_0 = {${deleteZeroFromEnd(round(quadrY0))}} $$"
+    }
+
+    private fun round(number: Float): Float {
+        val i = 1000
+        return (number * i).roundToInt().toFloat()/i
+    }
+
+    private fun deleteZeroFromEnd(number: Float): String {
         return  deleteZeroFromEnd(number.toString())
     }
 
@@ -93,22 +103,22 @@ class QuadraticEquation (
         var str = localisationStrings.get("solutionDiscrim").toString()
         str += DISCRIMINANT_FORMULA
         str += "$$\\ D = ${checkForAddParentheses(deleteZeroFromEnd(b))}^2 - 4 * ${checkForAddParentheses(deleteZeroFromEnd(a))} * ${checkForAddParentheses(deleteZeroFromEnd(c))} $$ "
-        str += "$$\\ D = ${deleteZeroFromEnd(d)} $$"
+        str += "$$\\ D = ${deleteZeroFromEnd(round(d))} $$"
         if (d > 0) {
             str += QUADRATIC_X12_FORMULA
-            str += "$$\\ x_1 = {${deleteZeroFromEnd(changeSign(b))} + \\sqrt{${deleteZeroFromEnd(d)}} \\over 2*${checkForAddParentheses(deleteZeroFromEnd(a))}}$$"
-            str += "$$\\ x_2 = {${deleteZeroFromEnd(changeSign(b))} - \\sqrt{${deleteZeroFromEnd(d)}} \\over 2*${checkForAddParentheses(deleteZeroFromEnd(a))}}$$"
+            str += "$$\\ x_1 = {${deleteZeroFromEnd(changeSign(b))} + \\sqrt{${deleteZeroFromEnd(round(d))}} \\over 2*${checkForAddParentheses(deleteZeroFromEnd(a))}}$$"
+            str += "$$\\ x_2 = {${deleteZeroFromEnd(changeSign(b))} - \\sqrt{${deleteZeroFromEnd(round(d))}} \\over 2*${checkForAddParentheses(deleteZeroFromEnd(a))}}$$"
             str += localisationStrings.get("answer").toString()
-            str += "$$\\ x_1 = ${deleteZeroFromEnd(quadrX1)}; x_2 = ${deleteZeroFromEnd(quadrX2)}$$"
+            str += "$$\\ x_1 = ${deleteZeroFromEnd(round(quadrX1))}; x_2 = ${deleteZeroFromEnd(round(quadrX2))}$$"
         } else if (d==0f) {
             str += QUADRATIC_X_FORMULA
             str += "$$\\ x = {${deleteZeroFromEnd(changeSign(b))} \\over 2*${checkForAddParentheses(deleteZeroFromEnd(a))}}$$"
             str += localisationStrings.get("answer").toString()
-            str += "$$\\ x = ${deleteZeroFromEnd(quadrX1)}$$"
+            str += "$$\\ x = ${deleteZeroFromEnd(round(quadrX1))}$$"
         } else {
             graphicType = GraphicType.NO_GRAPHIC
             str += localisationStrings.get("answer").toString() + " "
-            str += localisationStrings.get("noNaturalSolution").toString()
+            str += localisationStrings.get("noMaterialSolution").toString()
         }
         return str
     }
@@ -119,7 +129,7 @@ class QuadraticEquation (
         str += LINEAR_X_FORMULA
         str += "$$\\ x = {${deleteZeroFromEnd(changeSign(c))} \\over ${deleteZeroFromEnd(b)}}$$"
         str += localisationStrings.get("answer").toString()
-        str += "$$\\ x = ${deleteZeroFromEnd(linearX)} $$"
+        str += "$$\\ x = ${deleteZeroFromEnd(round(linearX))} $$"
         return str
     }
 
