@@ -44,8 +44,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private var localisationStrings: HashMap<String, String> = HashMap()
-
     private lateinit var equation: QuadraticEquation
 
     private lateinit var edtA: EditText
@@ -68,14 +66,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbarMain))
-
-        //строковые данные, используемые в классе уравнения
-        localisationStrings.put("answer", getString(R.string.answer))
-        localisationStrings.put("wrongAnswer", getString(R.string.wrong_answer))
-        localisationStrings.put("solution", getString(R.string.solution))
-        localisationStrings.put("solutionDiscrim", getString(R.string.solution_discrim))
-        localisationStrings.put("yourEq", getString(R.string.your_eq))
-        localisationStrings.put("noMaterialSolution", getString(R.string.no_natural_solution))
 
         edtA = findViewById(R.id.edtA)
         edtB = findViewById(R.id.edtB)
@@ -267,7 +257,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 if (edtC.text.toString() == "") "0" else if (edtC.text.toString() == ".") "0.1" else edtC.text.toString()
             )
 
-            equation = QuadraticEquation(aPair, bPair, cPair, localisationStrings)
+            equation = QuadraticEquation(aPair, bPair, cPair, this.applicationContext)
             mvSolution.text = equation.toString()
             mvSolution.layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,

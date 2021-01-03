@@ -1,5 +1,7 @@
 package com.vkochenkov.equationsolver.services
 
+import android.content.Context
+import com.vkochenkov.equationsolver.R
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
@@ -17,7 +19,7 @@ class QuadraticEquation (
     val aPair: Pair<String, String>,
     val bPair: Pair<String, String>,
     val cPair: Pair<String, String>,
-    val localisationStrings: HashMap<String, String>
+    val context: Context
 ) {
     //тип графика. По-дефолту - квадратное
     var graphicType: GraphicType = GraphicType.QUADRATIC
@@ -69,7 +71,7 @@ class QuadraticEquation (
     }
 
     private fun showBasicEquation(): String {
-        var str = localisationStrings.get("yourEq").toString()
+        var str = context.getString(R.string.your_eq)
         var eq = when (a) {
             0f -> ""
             1f -> "x^2"
@@ -100,7 +102,7 @@ class QuadraticEquation (
 
     private fun showSolutionForQuadraticEquation(): String {
         graphicType = GraphicType.QUADRATIC
-        var str = localisationStrings.get("solutionDiscrim").toString()
+        var str = context.getString(R.string.solution_discrim)
         str += DISCRIMINANT_FORMULA
         str += "$$\\ D = ${checkForAddParentheses(deleteZeroFromEnd(b))}^2 - 4 * ${checkForAddParentheses(deleteZeroFromEnd(a))} * ${checkForAddParentheses(deleteZeroFromEnd(c))} $$ "
         str += "$$\\ D = ${deleteZeroFromEnd(round(d))} $$"
@@ -108,34 +110,34 @@ class QuadraticEquation (
             str += QUADRATIC_X12_FORMULA
             str += "$$\\ x_1 = {${deleteZeroFromEnd(changeSign(b))} + \\sqrt{${deleteZeroFromEnd(round(d))}} \\over 2*${checkForAddParentheses(deleteZeroFromEnd(a))}}$$"
             str += "$$\\ x_2 = {${deleteZeroFromEnd(changeSign(b))} - \\sqrt{${deleteZeroFromEnd(round(d))}} \\over 2*${checkForAddParentheses(deleteZeroFromEnd(a))}}$$"
-            str += localisationStrings.get("answer").toString()
+            str += context.getString(R.string.answer)
             str += "$$\\ x_1 = ${deleteZeroFromEnd(round(quadrX1))}; x_2 = ${deleteZeroFromEnd(round(quadrX2))}$$"
         } else if (d==0f) {
             str += QUADRATIC_X_FORMULA
             str += "$$\\ x = {${deleteZeroFromEnd(changeSign(b))} \\over 2*${checkForAddParentheses(deleteZeroFromEnd(a))}}$$"
-            str += localisationStrings.get("answer").toString()
+            str += context.getString(R.string.answer)
             str += "$$\\ x = ${deleteZeroFromEnd(round(quadrX1))}$$"
         } else {
             graphicType = GraphicType.NO_GRAPHIC
-            str += localisationStrings.get("answer").toString() + " "
-            str += localisationStrings.get("noMaterialSolution").toString()
+            str += context.getString(R.string.answer) + " "
+            str += context.getString(R.string.no_natural_solution).toString()
         }
         return str
     }
 
     private fun showSolutionForLinearEquation(): String {
         graphicType = GraphicType.LINEAR
-        var str = localisationStrings.get("solution").toString()
+        var str = context.getString(R.string.solution)
         str += LINEAR_X_FORMULA
         str += "$$\\ x = {${deleteZeroFromEnd(changeSign(c))} \\over ${deleteZeroFromEnd(b)}}$$"
-        str += localisationStrings.get("answer").toString()
+        str += context.getString(R.string.answer)
         str += "$$\\ x = ${deleteZeroFromEnd(round(linearX))} $$"
         return str
     }
 
     private fun showError(): String {
         graphicType = GraphicType.NO_GRAPHIC
-        return localisationStrings.get("wrongAnswer").toString()
+        return context.getString(R.string.wrong_answer)
     }
 
     private fun glueSignWithNumber(pair: Pair<String, String>): Float {
