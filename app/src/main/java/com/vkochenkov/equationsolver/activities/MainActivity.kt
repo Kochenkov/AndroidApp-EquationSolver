@@ -17,8 +17,8 @@ import com.jjoe64.graphview.GraphView
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
 import com.vkochenkov.equationsolver.R
-import com.vkochenkov.equationsolver.services.GraphicType
-import com.vkochenkov.equationsolver.services.QuadraticEquation
+import com.vkochenkov.equationsolver.entity.GraphicType
+import com.vkochenkov.equationsolver.entity.QuadraticEquation
 import io.github.kexanie.library.MathView
 import kotlin.math.abs
 
@@ -67,26 +67,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbarMain))
 
-        edtA = findViewById(R.id.edtA)
-        edtB = findViewById(R.id.edtB)
-        edtC = findViewById(R.id.edtC)
-        btnChangeSignA = findViewById(R.id.btnChangeSignA)
-        btnChangeSignB = findViewById(R.id.btnChangeSignB)
-        btnChangeSignC = findViewById(R.id.btnChangeSignC)
-        btnClear = findViewById(R.id.btnClear)
-        btnSolve = findViewById(R.id.btnSolve)
-        btnDraw = findViewById(R.id.btnDraw)
-        mvSolution = findViewById(R.id.mvSolution)
-        scrollView = findViewById(R.id.scrollMain)
-        tvCoordinates = findViewById(R.id.mvCoordinates)
-        graphView = findViewById(R.id.graphView)
-
-        btnChangeSignA.setOnClickListener(this)
-        btnChangeSignB.setOnClickListener(this)
-        btnChangeSignC.setOnClickListener(this)
-        btnClear.setOnClickListener(this)
-        btnSolve.setOnClickListener(this)
-        btnDraw.setOnClickListener(this)
+        initFields()
+        setOnClickListeners()
 
         animationRotateCenter = AnimationUtils.loadAnimation(this, R.anim.rotate_center)
     }
@@ -103,6 +85,31 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             R.id.action_exit -> exit()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun initFields() {
+        edtA = findViewById(R.id.edtA)
+        edtB = findViewById(R.id.edtB)
+        edtC = findViewById(R.id.edtC)
+        btnChangeSignA = findViewById(R.id.btnChangeSignA)
+        btnChangeSignB = findViewById(R.id.btnChangeSignB)
+        btnChangeSignC = findViewById(R.id.btnChangeSignC)
+        btnClear = findViewById(R.id.btnClear)
+        btnSolve = findViewById(R.id.btnSolve)
+        btnDraw = findViewById(R.id.btnDraw)
+        mvSolution = findViewById(R.id.mvSolution)
+        scrollView = findViewById(R.id.scrollMain)
+        tvCoordinates = findViewById(R.id.mvCoordinates)
+        graphView = findViewById(R.id.graphView)
+    }
+
+    private fun setOnClickListeners() {
+        btnChangeSignA.setOnClickListener(this)
+        btnChangeSignB.setOnClickListener(this)
+        btnChangeSignC.setOnClickListener(this)
+        btnClear.setOnClickListener(this)
+        btnSolve.setOnClickListener(this)
+        btnDraw.setOnClickListener(this)
     }
 
     private fun exit() {
